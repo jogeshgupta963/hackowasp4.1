@@ -11,11 +11,6 @@ client.on("ready",()=>{
 function joke(){
     return "U r"
 }
-client.on("messageCreate", async(msg1)=>{
-  if(msg1.content =="heys bitches"){
-    msg1.reply("aint your bitch")
-  }
-})
 
 client.on("messageCreate", async(msg)=>{        
     
@@ -48,6 +43,9 @@ client.on("messageCreate", async(msg)=>{
     else if(msg.content && msg.author.bot !=true){
             msg.reply(`1.Movies 2.Jokes`)
         }
+    else if(msg.content =="heys bitches"){
+           msg.reply("aint your bitch")
+    }
        
 
 })
