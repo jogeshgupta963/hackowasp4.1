@@ -9,7 +9,19 @@ client.on("ready",()=>{
     console.log(`logged in as ${client.user.tag}`)
 })
 function joke(){
-    return "U r"
+      params = {
+    method: 'GET',
+    headers: {
+    'X-RapidAPI-Host': 'dad-jokes.p.rapidapi.com',
+    'X-RapidAPI-Key': 'c275f492cfmsh1481aba9c0522d8p121ae8jsn4d073f1ee41b'
+  }
+
+  }
+
+  axios.get("https://dad-jokes.p.rapidapi.com/random/joke",params).then(response=>{
+    console.log(response);
+    
+  });
 }
 function getData () { 
 axios.get("https://zenquotes.io/api/random").then(
@@ -58,6 +70,12 @@ client.on("messageCreate", async(msg)=>{
   if(msg1.content==="heys bitches"){
     msg1.reply("ain't your bitch")
     
+  }
+  else if(msg1.content===("how are you?","how are you")){
+    msg1.reply("i am good, just sick of the summer weather ")
+  }
+  else if(msg1.content ===("hi","hello","hey")){
+    msg1.reply("greetings! hope you had a great day")
   }
  })
 
