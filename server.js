@@ -9,20 +9,23 @@ client.on("ready",()=>{
     console.log(`logged in as ${client.user.tag}`)
 })
 function joke(){
-      params = {
+    params = {
     method: 'GET',
     headers: {
-    'X-RapidAPI-Host': 'dad-jokes.p.rapidapi.com',
+    'X-RapidAPI-Host': 'jokeapi-v2.p.rapidapi.com',
     'X-RapidAPI-Key': 'c275f492cfmsh1481aba9c0522d8p121ae8jsn4d073f1ee41b'
   }
 
   }
 
-  axios.get("https://dad-jokes.p.rapidapi.com/random/joke",params).then(response=>{
+  axios.get("https://jokeapi-v2.p.rapidapi.com/joke/Any",params).then(response=>{
     console.log(response);
     
   });
 }
+
+joke()
+
 function getData () { 
 axios.get("https://zenquotes.io/api/random").then(
   response=>{
