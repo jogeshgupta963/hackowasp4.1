@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const axios =require("axios")
+// const fetch = require('node-fetch')
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
 require('dotenv').config()
 
@@ -8,41 +9,33 @@ client.on("ready",()=>{
 
     console.log(`logged in as ${client.user.tag}`)
 })
-function joke(){
-      params = {
-    method: 'GET',
-    headers: {
-    'X-RapidAPI-Host': 'dad-jokes.p.rapidapi.com',
-    'X-RapidAPI-Key': 'c275f492cfmsh1481aba9c0522d8p121ae8jsn4d073f1ee41b'
-  }
 
-  }
-
-  axios.get("https://dad-jokes.p.rapidapi.com/random/joke",params).then(response=>{
-    console.log(response);
-    
-  });
-}
-function getData () { 
-axios.get("https://zenquotes.io/api/random").then(
-  response=>{
-    console.log(response);
-  });
-  
-  
-};
 
 client.on("messageCreate", async(msg)=>{        
-    
-    // console.log(msg)
         
     if(msg.content == "1"){
         msg.reply('Enter movie in format movie-"moviename"')
         return;
     }
+    //jokes api
     else if(msg.content === "2"){
-        msg.reply(joke())
+
+        try {
+            
+            params = {
+                method:"GET",
+                headers:{
+                    'X-RapidAPI-Host': 'jokeapi-v2.p.rapidapi.com',
+                    'X-RapidAPI-Key': 'c275f492cfmsh1481aba9c0522d8p121ae8jsn4d073f1ee41b'
+                }
+            }
+            const {data} = await axios.get("https://jokeapi-v2.p.rapidapi.com/joke/Any",params)
+            msg.reply(data.joke)
+        } catch (error) {
+            console.log(error.messsage)
+        }
     }
+    //movie api
     else if(msg.content.startsWith("movie-")){
         const searchMovieName = msg.content.split('-')[1];
         let uri = `http://www.omdbapi.com/?s=${searchMovieName}&apikey=36869c0c`
@@ -60,24 +53,33 @@ client.on("messageCreate", async(msg)=>{
         })
         msg.reply(toString(arr))
     }
-    else if(msg.content && msg.author.bot !=true){
-            msg.reply(`1.Movies 2.Jokes`)
+    //movie/jokes choice
+    else if(msg.content == "!distract"){
+        msg.reply(`1.Movies 2.Jokes`)
+    }
+    //quotes api
+     else if(msg.content == '!inspire'){
+
+       let res = await axios.get("https://zenquotes.io/api/random")
+       msg.reply(`Heres an inspiring quote for you :- ${res.data[0].q}`)
+       
+    }
+    //affirmation api
+    else if(msg.content && !msg.author.bot){
+        try {
+            
+            
+            let {data} = await axios.get('https://www.affirmations.dev/');
+            
+            msg.reply(data.affirmation)
+        } catch (error) {
+            console.log(error.messsage)
         }
-   
+        }
+    
 
 })
- client.on("messageCreate",async(msg1)=>{
-  if(msg1.content==="heys bitches"){
-    msg1.reply("ain't your bitch")
-    
-  }
-  else if(msg1.content===("how are you?","how are you")){
-    msg1.reply("i am good, just sick of the summer weather ")
-  }
-  else if(msg1.content ===("hi","hello","hey")){
-    msg1.reply("greetings! hope you had a great day")
-  }
- })
+
 
 
 client.login(process.env.botToken)
