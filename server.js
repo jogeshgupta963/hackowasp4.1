@@ -11,10 +11,18 @@ client.on("ready",()=>{
     console.log(`logged in as ${client.user.tag}`)
 })
 
-
-client.on("messageCreate", async(msg)=>{        
+client.on("messageCreate", async(msg)=>{  
+  if(msg.content===("hi"||"hello"||"hey")){
+    msg.reply("greetings! hope you had a great day,how are you feeling?")
+  }
+  else if(msg.content===("how are you?"||"how are you")){
+    msg.reply("i am good, just sick of the summer weather ")
+  }
+  else if(msg.content===("sad")){
+    msg.reply("hang in there")
+  }   
         
-    if(msg.content == "1" || msg.content ==='movie'){
+    else if(msg.content == "1" || msg.content ==='movie'){
         // msg.reply('Enter movie in format movie-"moviename"')
         // const searchMovieName = msg.content.split('-')[1];
         
