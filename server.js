@@ -1,7 +1,8 @@
 const Discord = require('discord.js')
 const axios =require("axios")
-// const fetch = require('node-fetch')
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
+const randomMovieNames = require('random-movie-names');
+
 require('dotenv').config()
 
 
@@ -13,12 +14,25 @@ client.on("ready",()=>{
 
 client.on("messageCreate", async(msg)=>{        
         
-    if(msg.content == "1"){
-        msg.reply('Enter movie in format movie-"moviename"')
-        return;
+    if(msg.content == "1" || msg.content ==='movie'){
+        // msg.reply('Enter movie in format movie-"moviename"')
+        // const searchMovieName = msg.content.split('-')[1];
+        
+        const movieName = randomMovieNames()
+        
+        let uri = `http://www.omdbapi.com/?s=${movieName}&apikey=36869c0c`
+        const {data} = await axios.get(uri)
+        const {Search} = data;
+        console.log(Search)
+        if(Search){
+            msg.reply(`Try watching ${Search[0].Title}`)
+            return
+        }
+        msg.reply(`Try watching ${movieName}`)
+        // return;
     }
     //jokes api
-    else if(msg.content === "2"){
+    else if(msg.content === "2" || msg.content==="joke"){
 
         try {
             
@@ -30,6 +44,13 @@ client.on("messageCreate", async(msg)=>{
                 }
             }
             const {data} = await axios.get("https://jokeapi-v2.p.rapidapi.com/joke/Any",params)
+            console.log(data)
+
+            if(data.type==="twopart"){
+                let s = data.setup +" "+ data.delivery
+                msg.reply(data.setup +" "+ data.delivery)
+                return;
+            }
             msg.reply(data.joke)
         } catch (error) {
             console.log(error.messsage)
@@ -77,7 +98,6 @@ client.on("messageCreate", async(msg)=>{
         }
         }
     
-
 })
 
 
