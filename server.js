@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const axios =require("axios")
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
 const randomMovieNames = require('random-movie-names');
+const { MessageEmbed } = require('discord.js');
 
 require('dotenv').config()
 
@@ -11,32 +12,57 @@ client.on("ready",()=>{
     console.log(`logged in as ${client.user.tag}`)
 })
 
+
 client.on("messageCreate", async(msg)=>{  
-  if(msg.content===("hi"||"hello"||"hey")){
-    msg.reply("greetings! hope you had a great day,how are you feeling?")
-  }
-  else if(msg.content===("how are you?"||"how are you")){
-    msg.reply("i am good, just sick of the summer weather ")
-  }
-  else if(msg.content===("sad")){
-    msg.reply("hang in there")
-  }   
+
+    //  if(msg.content.includes(["hi","Hi","Hello","Hey","hello","hey"])){
+     if(["hi","Hi","Hello","Hey","hello","hey"].includes(msg.content)){
+        //   msg.reply("greetings! hope you had a great day,how are you feeling?")
+        // https://media.giphy.com/media/noyBeNjH4nbtXV5ZLA/giphy.gif
+        const exampleEmbed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`hello ${msg.author.username}`)
+        .setDescription(`hope you had a great day,how are you feeling?`)
+        .setImage(`https://media.giphy.com/media/noyBeNjH4nbtXV5ZLA/giphy.gif`)
+        .setTimestamp()
+
+        msg.reply({ embeds: [exampleEmbed] });
         
+     }
+    else if(["how are you?","how are you"].includes(msg.content)){
+      msg.reply("i am good, just sick of the summer weather ")
+     }
+     else if( ["sad","Sad"].includes(msg.content) ){
+       msg.reply("hang in there")
+     }     
     else if(msg.content == "1" || msg.content ==='movie'){
-        // msg.reply('Enter movie in format movie-"moviename"')
-        // const searchMovieName = msg.content.split('-')[1];
         
-        const movieName = randomMovieNames()
-        
+        var movieName = randomMovieNames()
+
+    
+        // movieName =s;
         let uri = `http://www.omdbapi.com/?s=${movieName}&apikey=36869c0c`
         const {data} = await axios.get(uri)
         const {Search} = data;
-        console.log(Search)
+
         if(Search){
-            msg.reply(`Try watching ${Search[0].Title}`)
-            return
+            const exampleEmbed = new MessageEmbed()
+	        .setColor('#0099ff')
+	        .setTitle(Search[0].Title)
+	        .setDescription(`Year - ${Search[0].Year}`)
+	        .setImage(Search[0].Poster)
+	        .setTimestamp()
+
+            msg.reply({ embeds: [exampleEmbed] });
+            return;
         }
-        msg.reply(`Try watching ${movieName}`)
+        const exampleEmbed = new MessageEmbed()
+	        .setColor('#0099ff')
+	        .setTitle(movieName)
+	        // .setDescription(Search[0].Year)
+	        // .setImage(Search[0].Poster)
+	        .setTimestamp()
+        msg.reply({ embeds: [exampleEmbed] })
         // return;
     }
     //jokes api
@@ -94,17 +120,16 @@ client.on("messageCreate", async(msg)=>{
        
     }
     //affirmation api
-    else if(msg.content && !msg.author.bot){
-        try {
+    // else if(msg.content && !msg.author.bot){
+
+    //     try {
+    //         let {data} = await axios.get('https://www.affirmations.dev/');
             
-            
-            let {data} = await axios.get('https://www.affirmations.dev/');
-            
-            msg.reply(data.affirmation)
-        } catch (error) {
-            console.log(error.messsage)
-        }
-        }
+    //         msg.reply(data.affirmation)
+    //     } catch (error) {
+    //         console.log(error.messsage)
+    //     }
+    //     }
     
 })
 
