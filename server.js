@@ -38,7 +38,7 @@ client.on("messageCreate", async(msg)=>{
         .setColor('#0099ff')
         .setTitle(`${randomEnc}  ${msg.author.username}`)
         .setDescription(`May i interest u in a movie or a joke ??`)
-        .setImage(`https://media.giphy.com/media/2UIcmK4pn7rYNLRboG/giphy.gif`)
+        .setImage(`https://media.giphy.com/media/TBniyGNrNy6AUAnqJA/giphy.gif`)
         .setTimestamp()
 
         msg.reply({ embeds: [exampleEmbed] });
@@ -49,7 +49,7 @@ client.on("messageCreate", async(msg)=>{
         .setColor('#0099ff')
         .setTitle(`Try this  ${msg.author.username}`)
         .setDescription(`hope you had a great day,how are you feeling?`)
-        .setImage(`https://media.giphy.com/media/ydVuuLupD8hRrCpEs6/giphy.gif`)
+        .setImage(`https://media.giphy.com/media/TBniyGNrNy6AUAnqJA/giphy.gif`)
         .setTimestamp()
         msg.reply({ embeds: [exampleEmbed] });
      }
