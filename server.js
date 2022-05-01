@@ -15,10 +15,7 @@ client.on("ready",()=>{
 
 client.on("messageCreate", async(msg)=>{  
 
-    //  if(msg.content.includes(["hi","Hi","Hello","Hey","hello","hey"])){
      if(["hi","Hi","Hello","Hey","hello","hey"].includes(msg.content)){
-        //   msg.reply("greetings! hope you had a great day,how are you feeling?")
-        // https://media.giphy.com/media/noyBeNjH4nbtXV5ZLA/giphy.gif
         const exampleEmbed = new MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`hello ${msg.author.username}`)
@@ -29,18 +26,37 @@ client.on("messageCreate", async(msg)=>{
         msg.reply({ embeds: [exampleEmbed] });
         
      }
-    else if(["how are you?","how are you"].includes(msg.content)){
+    else if(["how are you?","how are you"].includes(msg.content.toLowerCase())){
       msg.reply("i am good, just sick of the summer weather ")
      }
-     else if( ["sad","Sad"].includes(msg.content) ){
-       msg.reply("hang in there")
+     else if( ["sad", "depressed", "unhappy", "angry"].includes(msg.content.toLowerCase()) ){
+       
+        const encouragements = ["Cheer up!", "Hang in there.", "You are awesome!"]
+        var randomEnc = encouragements[Math.floor(Math.random() * encouragements.length)];
+
+        const exampleEmbed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`${randomEnc}  ${msg.author.username}`)
+        .setDescription(`May i interest u in a movie or a joke ??`)
+        .setImage(`https://media.giphy.com/media/2UIcmK4pn7rYNLRboG/giphy.gif`)
+        .setTimestamp()
+
+        msg.reply({ embeds: [exampleEmbed] });
+
      }     
-    else if(msg.content == "1" || msg.content ==='movie'){
+     else if(msg.content.toLowerCase() == "!breathe" || msg.content ==='3'){
+        const exampleEmbed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`Try this  ${msg.author.username}`)
+        .setDescription(`hope you had a great day,how are you feeling?`)
+        .setImage(`https://media.giphy.com/media/ydVuuLupD8hRrCpEs6/giphy.gif`)
+        .setTimestamp()
+        msg.reply({ embeds: [exampleEmbed] });
+     }
+    else if(msg.content == "1" || msg.content.toLowerCase() ==='movie'){
         
         var movieName = randomMovieNames()
-
-    
-        // movieName =s;
+        
         let uri = `http://www.omdbapi.com/?s=${movieName}&apikey=36869c0c`
         const {data} = await axios.get(uri)
         const {Search} = data;
@@ -66,7 +82,7 @@ client.on("messageCreate", async(msg)=>{
         // return;
     }
     //jokes api
-    else if(msg.content === "2" || msg.content==="joke"){
+    else if(msg.content === "2" || msg.content.toLowerCase()==="joke"){
 
         try {
             
@@ -110,7 +126,7 @@ client.on("messageCreate", async(msg)=>{
     }
     //movie/jokes choice
     else if(msg.content == "!distract"){
-        msg.reply(`1.Movies 2.Jokes`)
+        msg.reply(`1.Movies 2.Jokes 3.Breathing Exercise`)
     }
     //quotes api
      else if(msg.content == '!inspire'){
@@ -120,16 +136,16 @@ client.on("messageCreate", async(msg)=>{
        
     }
     //affirmation api
-    // else if(msg.content && !msg.author.bot){
+    else if(msg.content && !msg.author.bot){
 
-    //     try {
-    //         let {data} = await axios.get('https://www.affirmations.dev/');
+        try {
+            let {data} = await axios.get('https://www.affirmations.dev/');
             
-    //         msg.reply(data.affirmation)
-    //     } catch (error) {
-    //         console.log(error.messsage)
-    //     }
-    //     }
+            msg.reply(data.affirmation)
+        } catch (error) {
+            console.log(error.messsage)
+        }
+        }
     
 })
 
